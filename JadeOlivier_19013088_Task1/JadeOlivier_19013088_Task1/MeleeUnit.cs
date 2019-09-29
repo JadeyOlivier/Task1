@@ -86,9 +86,58 @@ namespace JadeOlivier_19013088_Task1
             return returnVal;
         }
 
-        protected override int ClosestUnit(Unit unitCloset)
+        protected override Unit ClosestUnit(Unit unitCloset)
         {
-            throw new NotImplementedException();
+            int workingOut, xDis, yDis;
+            int closest = 1000;
+            Unit returnVal = this;
+            foreach (Unit temp in unitClosetCheck)
+            {
+                string typeCheck = temp.GetType().ToString();
+                string[] splitArray = typeCheck.Split('.');
+                typeCheck = splitArray[splitArray.Length - 1];
+
+                if (typeCheck == "MeleeUnit")
+                {
+                    MeleeUnit m = (MeleeUnit)temp;
+                    if (m.XPos != this.XPos && m.YPos != this.YPos)
+                    {
+                        if (m.Faction != this.Faction)
+                        {
+                            xDis = Math.Abs(this.XPos - m.XPos);
+                            yDis = Math.Abs(this.YPos - m.YPos);
+                            workingOut = Convert.ToInt32(Math.Sqrt((xDis * xDis) + (yDis * yDis)));
+
+                            if (workingOut < closest)
+                            {
+                                closest = workingOut;
+                                returnVal = m;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    RangedUnit r = (RangedUnit)temp;
+                    if (r.XPos != this.XPos && r.YPos != this.YPos)
+                    {
+                        if (r.Faction != this.Faction)
+                        {
+                            xDis = Math.Abs(this.XPos - r.XPos);
+                            yDis = Math.Abs(this.YPos - r.YPos);
+                            workingOut = Convert.ToInt32(Math.Sqrt((xDis * xDis) + (yDis * yDis)));
+
+                            if (workingOut < closest)
+                            {
+                                closest = workingOut;
+                                returnVal = r;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return returnVal;
         }
 
         protected override void Combat(Unit attackingUnit)

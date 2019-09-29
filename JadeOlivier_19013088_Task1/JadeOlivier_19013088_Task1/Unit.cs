@@ -41,7 +41,7 @@ namespace JadeOlivier_19013088_Task1
 
         protected abstract bool IsInRange(Unit unitInRange);
 
-        protected abstract int ClosestUnit(Unit unitCloset);
+        protected abstract Unit ClosestUnit(Unit unitCloset);
 
         protected abstract bool IsDead();
 
