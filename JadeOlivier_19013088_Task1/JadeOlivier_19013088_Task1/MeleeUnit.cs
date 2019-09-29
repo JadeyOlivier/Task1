@@ -86,7 +86,7 @@ namespace JadeOlivier_19013088_Task1
             return returnVal;
         }
 
-        protected override Unit ClosestUnit(Unit unitCloset)
+        protected override Unit ClosestUnit(Unit[] unitClosetCheck)
         {
             int workingOut, xDis, yDis;
             int closest = 1000;
@@ -150,13 +150,13 @@ namespace JadeOlivier_19013088_Task1
             {
                 MeleeUnit mu = (MeleeUnit)attackingUnit;
                 mu.Health -= this.Attk;
-                this.isAttacking = true;
+                this.isAttacking = false;
             }
             else
             {
                 RangedUnit ru = (RangedUnit)attackingUnit;
                 ru.Health -= this.Attk;
-                this.IsAttacking = true;
+                this.IsAttacking = false;
             }
         }
 
