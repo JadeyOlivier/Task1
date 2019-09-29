@@ -8,15 +8,81 @@ namespace JadeOlivier_19013088_Task1
 {
     class MeleeUnit : Unit
     {
-        
+        Map mapTracker = new Map(10);
+
         public MeleeUnit(int meleeX, int meleeY, string meleeTeam, char meleeSymb, bool meleeAttacking) : base(meleeX, meleeY, 6, 2, 2, 1, meleeTeam, meleeSymb, meleeAttacking)
         {
 
         }
 
-        protected override void Move(Unit unitToEngage)
+        protected override string Move(Unit unitToEngage)
         {
-            throw new NotImplementedException();
+            string returnVal = "";
+            string typeCheck = unitToEngage.GetType().ToString();
+            string[] splitArray = typeCheck.Split('.');
+            typeCheck = splitArray[splitArray.Length - 1];
+
+            if (typeCheck == "MeleeUnit")
+            {
+                MeleeUnit m = (MeleeUnit)unitToEngage;
+                if ((Math.Abs(m.XPos - this.XPos) > Math.Abs(m.YPos - this.YPos)))
+                {
+                    if ((m.XPos - this.XPos) > 0)
+                    {
+                        this.XPos++;
+                        returnVal = "Right";
+                    }
+                    else if ((m.XPos - this.XPos) < 0)
+                    {
+                        this.XPos--;
+                        returnVal = "Left";
+                    }
+                }
+                else
+                {
+                    if ((m.YPos - this.YPos) > 0)
+                    {
+                        this.YPos++;
+                        returnVal = "Up";
+                    }
+                    else if ((m.YPos - this.YPos) < 0)
+                    {
+                        returnVal = "Down";
+                    }
+                }
+            }
+            else
+            {
+                RangedUnit r = (RangedUnit)unitToEngage;
+                if ((Math.Abs(r.XPos - this.XPos) > Math.Abs(r.YPos - this.YPos)))
+                {
+                    if ((r.XPos - this.XPos) > 0)
+                    {
+                        this.XPos++;
+                        returnVal = "Right";
+                    }
+                    else if ((r.XPos - this.XPos) < 0)
+                    {
+                        this.XPos--;
+                        returnVal = "Left";
+                    }
+                }
+                else
+                {
+                    if ((r.YPos - this.YPos) > 0)
+                    {
+                        this.YPos++;
+                        returnVal = "Up";
+                    }
+                    else if ((r.YPos - this.YPos) < 0)
+                    {
+                        this.YPos--;
+                        returnVal = "Down";
+                    }
+                }
+            }
+
+            return returnVal;
         }
 
         protected override int ClosestUnit(Unit unitCloset)

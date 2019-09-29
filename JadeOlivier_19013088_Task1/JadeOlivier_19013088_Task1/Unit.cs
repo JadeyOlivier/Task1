@@ -35,7 +35,7 @@ namespace JadeOlivier_19013088_Task1
         }
 
         //Abstract methods to be used by subclasses
-        protected abstract void Move(Unit unitToEngage);
+        protected abstract string Move(Unit unitToEngage);
 
         protected abstract void Combat(Unit attackingUnit);
 
