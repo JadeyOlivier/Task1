@@ -16,14 +16,73 @@ namespace JadeOlivier_19013088_Task1
         }
         protected override void Move(Unit closetUnit)
         {
-            string typeCheck = closetUnit.GetType().ToString();
+            string returnVal = "";
+            string typeCheck = unitToEngage.GetType().ToString();
             string[] splitArray = typeCheck.Split('.');
             typeCheck = splitArray[splitArray.Length - 1];
 
-            if(typeCheck == "MeleeUnit")
+            if (typeCheck == "MeleeUnit")
             {
-               
+                MeleeUnit m = (MeleeUnit)unitToEngage;
+                if ((Math.Abs(m.XPos - this.XPos) > Math.Abs(m.YPos - this.YPos)))
+                {
+                    if ((m.XPos - this.XPos) > 0)
+                    {
+                        this.XPos++;
+                        returnVal = "Right";
+                    }
+                    else if ((m.XPos - this.XPos) < 0)
+                    {
+                        this.XPos--;
+                        returnVal = "Left";
+                    }
+                }
+                else
+                {
+                    if ((m.YPos - this.YPos) > 0)
+                    {
+                        this.YPos++;
+                        returnVal = "Up";
+                    }
+                    else if ((m.YPos - this.YPos) < 0)
+                    {
+                        this.YPos--;
+                        returnVal = "Down";
+                    }
+                }
             }
+            else
+            {
+                RangedUnit r = (RangedUnit)unitToEngage;
+                if ((Math.Abs(r.XPos - this.XPos) > Math.Abs(r.YPos - this.YPos)))
+                {
+                    if ((r.XPos - this.XPos) > 0)
+                    {
+                        this.XPos++;
+                        returnVal = "Right";
+                    }
+                    else if ((r.XPos - this.XPos) < 0)
+                    {
+                        this.XPos--;
+                        returnVal = "Left";
+                    }
+                }
+                else
+                {
+                    if ((r.YPos - this.YPos) > 0)
+                    {
+                        this.YPos++;
+                        returnVal = "Up";
+                    }
+                    else if ((r.YPos - this.YPos) < 0)
+                    {
+                        this.YPos--;
+                        returnVal = "Down";
+                    }
+                }
+            }
+
+            return returnVal;
         }
 
         protected override void Combat(Unit attackingUnit)

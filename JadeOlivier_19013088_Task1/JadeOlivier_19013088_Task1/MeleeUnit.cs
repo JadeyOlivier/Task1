@@ -47,6 +47,7 @@ namespace JadeOlivier_19013088_Task1
                     }
                     else if ((m.YPos - this.YPos) < 0)
                     {
+                        this.YPos--;
                         returnVal = "Down";
                     }
                 }
