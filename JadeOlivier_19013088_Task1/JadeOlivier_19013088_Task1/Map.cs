@@ -10,8 +10,8 @@ namespace JadeOlivier_19013088_Task1
     {
         
         Random rgn = new Random();
-        public const int HEIGHT = 21;
-        public const int WIDTH = 21;
+        public const int HEIGHT = 20;
+        public const int WIDTH = 20;
 
         int unitAmount;
         public Unit[] unitArray;
@@ -32,7 +32,6 @@ namespace JadeOlivier_19013088_Task1
             string teamName;
             char symbol;
             int xPos, yPos, teamNum;
-
 
             for (int m = 0; m <= unitArray.Length - 1; m++)
             {
@@ -56,7 +55,7 @@ namespace JadeOlivier_19013088_Task1
                                 symbol = 'm';
                                 ++numDayWalkers;
                             }
-                            unitArray[m] = new MeleeUnit(xPos,yPos,teamName,symbol,false);
+                            unitArray[m] = new MeleeUnit(xPos, yPos, teamName, symbol, false);
                             break;
                         }
 
@@ -65,7 +64,6 @@ namespace JadeOlivier_19013088_Task1
                             xPos = rgn.Next(0, 20);
                             yPos = rgn.Next(0, 20);
                             teamNum = rgn.Next(0, 2);
-
                             if (teamNum == 0)
                             {
                                 teamName = "Night Riders";
@@ -78,7 +76,7 @@ namespace JadeOlivier_19013088_Task1
                                 symbol = 'r';
                                 ++numDayWalkers;
                             }
-                            unitArray[m] = new RangedUnit(xPos,yPos,teamName,symbol,false);
+                            unitArray[m] = new RangedUnit(xPos, yPos, teamName, symbol, false);
                             break;
                         }
                 }
@@ -102,27 +100,27 @@ namespace JadeOlivier_19013088_Task1
                 }
             }
 
-            for (int b = 0; b < HEIGHT - 1; b++)
+            for (int b = 0; b <= HEIGHT - 1; b++)
             {
-                for (int p = 0; p < WIDTH - 1; p++)
+                for (int p = 0; p <= WIDTH - 1; p++)
                 {
-                    if (mapVisuals[p, b] != 'R' && mapVisuals[p, b] != 'r' && mapVisuals[p, b] != 'M' && mapVisuals[p, b] != 'm')
+                    if (mapVisuals[b, p] != 'R' && mapVisuals[b, p] != 'r' && mapVisuals[b, p] != 'M' && mapVisuals[b, p] != 'm')
                     {
-                        mapVisuals[p, b] = '.';
+                        mapVisuals[b, p] = '.';
                     }
 
                 }
             }
-        }
 
+        }
 
         public string drawMap()
         {
             string mapShow = "";
 
-            for (int i = 0; i < HEIGHT - 1; i++)
+            for (int i = 0; i <= HEIGHT - 1; i++)
             {
-                for (int j = 0; j < WIDTH - 1; j++)
+                for (int j = 0; j <= WIDTH - 1; j++)
                 {
                     mapShow += Convert.ToString(mapVisuals[j, i]);
                 }
