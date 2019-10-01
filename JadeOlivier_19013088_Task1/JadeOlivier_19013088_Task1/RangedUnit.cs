@@ -115,7 +115,7 @@ namespace JadeOlivier_19013088_Task1
             if (typeCheck == "MeleeUnit")
             {
                 MeleeUnit mu = (MeleeUnit)unitInRange;
-                if(Math.Abs(this.YPos - mu.YPos) == 2 || Math.Abs(this.XPos - mu.XPos) == 2)
+                if ((mu.YPos == this.YPos && Math.Abs(mu.XPos - this.XPos) == 2) || (mu.XPos == this.XPos && Math.Abs(mu.YPos - this.YPos) == 2))
                 {
                     inRange = true;
                 }
@@ -127,7 +127,7 @@ namespace JadeOlivier_19013088_Task1
             else
             {
                 RangedUnit ru = (RangedUnit)unitInRange;
-                if (Math.Abs(this.YPos - ru.YPos) == 2 || Math.Abs(this.XPos - ru.XPos) == 2)
+                if ((ru.YPos == this.YPos && Math.Abs(ru.XPos - this.XPos) == 2) || (ru.XPos == this.XPos && Math.Abs(ru.YPos - this.YPos) == 2))
                 {
                     inRange = true;
                 }
