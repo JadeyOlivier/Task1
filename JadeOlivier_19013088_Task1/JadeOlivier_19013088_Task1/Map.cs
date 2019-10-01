@@ -14,7 +14,7 @@ namespace JadeOlivier_19013088_Task1
         public const int WIDTH = 21;
 
         int unitAmount;
-        public Unit[] mapArray;
+        public Unit[] unitArray;
         public char[,] mapVisuals = new char[20, 20];
         public int numNightRiders, numDayWalkers;
 
@@ -23,7 +23,7 @@ namespace JadeOlivier_19013088_Task1
         public Map(int numUnits)
         {
             this.UnitAmount = numUnits;
-            mapArray = new Unit[numUnits];
+            unitArray = new Unit[numUnits];
         }
 
 
@@ -34,7 +34,7 @@ namespace JadeOlivier_19013088_Task1
             int xPos, yPos, teamNum;
 
 
-            for (int m = 0; m <= mapArray.Length - 1; m++)
+            for (int m = 0; m <= unitArray.Length - 1; m++)
             {
                 int type = rgn.Next(0, 2);
                 switch (type)
@@ -56,7 +56,7 @@ namespace JadeOlivier_19013088_Task1
                                 symbol = 'm';
                                 ++numDayWalkers;
                             }
-                            mapArray[m] = new MeleeUnit(xPos,yPos,teamName,symbol,false);
+                            unitArray[m] = new MeleeUnit(xPos,yPos,teamName,symbol,false);
                             break;
                         }
 
@@ -78,13 +78,13 @@ namespace JadeOlivier_19013088_Task1
                                 symbol = 'r';
                                 ++numDayWalkers;
                             }
-                            mapArray[m] = new RangedUnit(xPos,yPos,teamName,symbol,false);
+                            unitArray[m] = new RangedUnit(xPos,yPos,teamName,symbol,false);
                             break;
                         }
                 }
             }
 
-            foreach (Unit temp in mapArray)
+            foreach (Unit temp in unitArray)
             {
                 string typeCheck = temp.GetType().ToString();
                 string[] splitArray = typeCheck.Split('.');
