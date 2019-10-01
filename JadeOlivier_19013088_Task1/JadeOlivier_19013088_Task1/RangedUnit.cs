@@ -197,6 +197,7 @@ namespace JadeOlivier_19013088_Task1
         protected override bool IsDead()
         {
             bool unitDead;
+
             if (this.Health <= 0)
             {
                 unitDead = true;
@@ -225,6 +226,39 @@ namespace JadeOlivier_19013088_Task1
             returnVal += Environment.NewLine;
 
             return returnVal;
+        }
+
+        public string RandomMove()
+        {
+            Random rgn = new Random();
+            int move = rgn.Next(0, 4);
+            string moveDirect = "";
+
+            switch (move)
+            {
+                case 0:
+                    {
+                        moveDirect = "Right";
+                        break;
+                    }
+                case 1:
+                    {
+                        moveDirect = "Left";
+                        break;
+                    }
+                case 2:
+                    {
+                        moveDirect = "Up";
+                        break;
+                    }
+                case 3:
+                    {
+                        moveDirect = "Down";
+                        break;
+                    }
+            }
+
+            return moveDirect;
         }
 
         public int XPos { get => base.xPos; set => base.xPos = value; }
