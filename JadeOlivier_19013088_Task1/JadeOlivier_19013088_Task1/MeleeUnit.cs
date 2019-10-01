@@ -15,7 +15,7 @@ namespace JadeOlivier_19013088_Task1
 
         }
 
-        protected override string Move(Unit unitToEngage)
+        public override string Move(Unit unitToEngage)
         {
             string returnVal = "";
             string typeCheck = unitToEngage.GetType().ToString();
@@ -86,7 +86,7 @@ namespace JadeOlivier_19013088_Task1
             return returnVal;
         }
 
-        protected override Unit ClosestUnit(Unit[] unitClosetCheck)
+        public override Unit ClosestUnit(Unit[] unitClosetCheck)
         {
             int workingOut, xDis, yDis;
             int closest = 1000;
@@ -140,7 +140,7 @@ namespace JadeOlivier_19013088_Task1
             return returnVal;
         }
 
-        protected override void Combat(Unit attackingUnit)
+        public override void Combat(Unit attackingUnit)
         {
             string typeCheck = attackingUnit.GetType().ToString();
             string[] splitArray = typeCheck.Split('.');
@@ -160,7 +160,7 @@ namespace JadeOlivier_19013088_Task1
             }
         }
 
-        protected override bool IsDead()
+        public override bool IsDead()
         {
             bool unitDead;
 
@@ -176,7 +176,7 @@ namespace JadeOlivier_19013088_Task1
             return unitDead;
         }
 
-        protected override bool IsInRange(Unit unitInRange)
+        public override bool IsInRange(Unit unitInRange)
         {
             bool inRange = false; ;
             string typeCheck = unitInRange.GetType().ToString();
@@ -211,7 +211,7 @@ namespace JadeOlivier_19013088_Task1
             return inRange;
         }
 
-        protected override string ToString(Unit unitString)
+        public override string ToString(Unit unitString)
         {
             string returnVal = "";
             returnVal += "A new Ranged Unit enters the battlefield" + Environment.NewLine;
