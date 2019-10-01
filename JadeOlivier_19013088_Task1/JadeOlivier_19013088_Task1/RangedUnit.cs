@@ -211,7 +211,7 @@ namespace JadeOlivier_19013088_Task1
             return unitDead;
         }
 
-        public override string ToString(Unit unitString)
+        public override string ToString()
         {
             string returnVal = "";
             returnVal += "A new Ranged Unit enters the battlefield" + Environment.NewLine;

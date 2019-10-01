@@ -45,7 +45,7 @@ namespace JadeOlivier_19013088_Task1
 
         public abstract bool IsDead();
 
-        public abstract string ToString(Unit unitString);   
+        public override abstract string ToString();   
         
         
     }

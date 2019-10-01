@@ -67,27 +67,11 @@ namespace JadeOlivier_19013088_Task1
             rtxProgress.Text = battleInfo;
         }
 
-            private void frmBattlefield_Load(object sender, EventArgs e)
+        private void frmBattlefield_Load(object sender, EventArgs e)
         {
-            GameEngine ge = new GameEngine();
+            ge.MapTracker.populateMap();
             lblMap.Text = ge.MapTracker.drawMap();
-            foreach (Unit temp in ge.MapTracker.unitArray)
-            {
-                string typeCheck = temp.GetType().ToString();
-                string[] splitArray = typeCheck.Split('.');
-                typeCheck = splitArray[splitArray.Length - 1];
-
-                if (typeCheck == "MeleeUnit")
-                {
-                    MeleeUnit obj = (MeleeUnit)temp;
-                    rtxProgress.AppendText(obj.ToString());
-                }
-                else
-                {
-                    RangedUnit obj = (RangedUnit)temp;
-                    rtxProgress.AppendText(obj.ToString());
-                }
-            }
+            Display();
         }
     }
 }
