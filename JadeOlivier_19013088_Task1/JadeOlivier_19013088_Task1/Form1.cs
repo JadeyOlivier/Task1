@@ -14,6 +14,7 @@ namespace JadeOlivier_19013088_Task1
     {
         GameEngine ge = new GameEngine();
         int timerTicks;
+
         public frmBattlefield()
         {
             InitializeComponent();

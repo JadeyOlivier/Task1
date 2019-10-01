@@ -86,6 +86,9 @@ namespace JadeOlivier_19013088_Task1
             return returnVal;
         }
 
+        //Distance formula used to determine closest unit. If distance of the opponent unit currently being tested is less than the
+        //distance of the previously tested opponent unit, the current unit then becomes the closest unit. Once all units in the 
+        //array have been tested, the closest enemy unit is passed back to GameEngine
         public override Unit ClosestUnit(Unit[] unitClosetCheck)
         {
             int workingOut, xDis, yDis;

@@ -12,8 +12,7 @@ namespace JadeOlivier_19013088_Task1
         Map mapTracker = new Map(10);
 
         public GameEngine()
-        {
-            MapTracker.populateMap();
+        { 
 
         }
 
