@@ -8,13 +8,15 @@ namespace JadeOlivier_19013088_Task1
 {
     class MeleeUnit : Unit
     {
-        Map mapTracker = new Map(10);
+        GameEngine ge = new GameEngine();
 
+        //Constructor intialiser for unit takes in created values and sends them to parent class Unit
         public MeleeUnit(int meleeX, int meleeY, string meleeTeam, char meleeSymb, bool meleeAttacking) : base(meleeX, meleeY, 6, 2, 2, 1, meleeTeam, meleeSymb, meleeAttacking)
         {
 
         }
 
+        //Movement takes in the enemy unit the current unit needs to move to and finds the shortest way of getting to that unit without moviong diagonally
         public override string Move(Unit unitToEngage)
         {
             string returnVal = "";
@@ -143,6 +145,7 @@ namespace JadeOlivier_19013088_Task1
             return returnVal;
         }
 
+        //Method to deal with combatting the enemy unit once it is in range. Lowers enemy hp using current units attack value 
         public override void Combat(Unit attackingUnit)
         {
             string typeCheck = attackingUnit.GetType().ToString();
@@ -163,13 +166,22 @@ namespace JadeOlivier_19013088_Task1
             }
         }
 
+        //Tests if current units health is <= 0 and removes it from the map 
         public override bool IsDead()
         {
             bool unitDead;
-
             if (this.Health <= 0)
             {
                 unitDead = true;
+                ge.MapTracker.mapVisuals[this.YPos, this.XPos] = '.';
+                if (this.Faction == "Day Walkers")
+                {
+                    ge.MapTracker.NumDayWalkers--;
+                }
+                else
+                {
+                    ge.MapTracker.NumNightRiders--;
+                }
             }
             else
             {
@@ -179,6 +191,7 @@ namespace JadeOlivier_19013088_Task1
             return unitDead;
         }
 
+        //Tests if closest enemy unit is within 2 blocks of the current unit 
         public override bool IsInRange(Unit unitInRange)
         {
             bool inRange = false; ;
@@ -214,12 +227,15 @@ namespace JadeOlivier_19013088_Task1
             return inRange;
         }
 
+
+        //For displaying stats of this unit
         public override string ToString()
         {
             string returnVal = "";
             returnVal += "A new Ranged Unit enters the battlefield" + Environment.NewLine;
             returnVal += "Their x position is: " + this.XPos + Environment.NewLine;
             returnVal += "Their y position is: " + this.YPos + Environment.NewLine;
+            returnVal += "Their MAX hp is: " + this.MaxHealth + Environment.NewLine;
             returnVal += "Their hp is: " + this.Health + Environment.NewLine;
             returnVal += "Their attack damage is: " + this.Attk + Environment.NewLine;
             returnVal += "Their range is: " + this.AttkRange + Environment.NewLine;
@@ -232,6 +248,7 @@ namespace JadeOlivier_19013088_Task1
             return returnVal; 
         }
 
+        //If the unit is low on health it will runaway in any random direction
         public string RandomMove()
         {
             Random rgn = new Random();

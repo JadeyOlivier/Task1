@@ -20,12 +20,13 @@ namespace JadeOlivier_19013088_Task1
 
         public void GameRun()
         {
-            ++numRounds;
+            ++numRounds; //Tracks the rounds to test if units can move during that round
             bool unitDied;
             string direction;
 
             foreach (Unit temp in MapTracker.unitArray)
             {
+                //Breaking the units ToString up to test what kind of unit it is, in order to create objects to access that units values
                 string typeCheck = temp.GetType().ToString();
                 string[] splitArray = typeCheck.Split('.');
                 typeCheck = splitArray[splitArray.Length - 1];
@@ -34,16 +35,20 @@ namespace JadeOlivier_19013088_Task1
                 {
                     MeleeUnit obj = (MeleeUnit)temp;
                     unitDied = obj.IsDead();
+                    //Unit can only act if it is not dead. Unit can also only attack enemy units if it's health is above 25% and is within range of them
+                    //If the unit is not in range it has to move closer to that unit 
                     if (unitDied == false)
                     {
                         if (numRounds % obj.Speed == 0)
                         {
                             if (obj.Health > (0.25 * obj.MaxHealth))
                             {
+                                //First have to find the closest enemy unit 
                                 Unit closest = obj.ClosestUnit(MapTracker.unitArray);
 
                                 if (obj.IsAttacking == false && obj.IsInRange(closest) == false)
                                 {
+                                    //Find shortest movement to enemy unit and sends back the directiong the unit has to move in
                                     direction = obj.Move(closest);
                                     switch (direction)
                                     {
@@ -112,6 +117,7 @@ namespace JadeOlivier_19013088_Task1
                                 }
                                 else if (obj.IsInRange(closest) == true)
                                 {
+                                    //Attacks the enemy unit if it is in range of them
                                     obj.IsAttacking = true;
                                     obj.Combat(closest);
                                 }

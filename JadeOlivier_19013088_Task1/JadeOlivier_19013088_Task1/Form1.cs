@@ -28,10 +28,12 @@ namespace JadeOlivier_19013088_Task1
 
         private void battleTimer_Tick(object sender, EventArgs e)
         {
+            //map and stats are updated everytime the timer ticks 
             rtxProgress.Text = "";
             timerTicks++;
             lblRound.Text = timerTicks.ToString();
-            if (ge.MapTracker.numDayWalkers > 0 && ge.MapTracker.numNightRiders > 0)
+            //Game only runs if both teams still have units in them. If one team kills all the units on the other team, the game stops
+            if (ge.MapTracker.NumDayWalkers > 0 && ge.MapTracker.NumNightRiders > 0)
             {
                 ge.GameRun();
                 lblMap.Text = ge.MapTracker.drawMap();
