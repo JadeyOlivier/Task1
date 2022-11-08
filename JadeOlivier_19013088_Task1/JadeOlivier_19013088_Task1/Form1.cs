@@ -12,7 +12,9 @@ namespace JadeOlivier_19013088_Task1
 {
     public partial class frmBattlefield : Form
     {
+        GameEngine ge = new GameEngine();
         int timerTicks;
+
         public frmBattlefield()
         {
             InitializeComponent();
@@ -26,8 +28,17 @@ namespace JadeOlivier_19013088_Task1
 
         private void battleTimer_Tick(object sender, EventArgs e)
         {
+            //map and stats are updated everytime the timer ticks 
+            rtxProgress.Text = "";
             timerTicks++;
             lblRound.Text = timerTicks.ToString();
+            //Game only runs if both teams still have units in them. If one team kills all the units on the other team, the game stops
+            if (ge.MapTracker.NumDayWalkers > 0 && ge.MapTracker.NumNightRiders > 0)
+            {
+                ge.GameRun();
+                lblMap.Text = ge.MapTracker.drawMap();
+                Display();
+            }
         }
 
         private void btnPause_Click(object sender, EventArgs e)
@@ -35,11 +46,10 @@ namespace JadeOlivier_19013088_Task1
             battleTimer.Stop();
         }
 
-        private void frmBattlefield_Load(object sender, EventArgs e)
+        private void Display()
         {
-            GameEngine ge = new GameEngine();
-            lblMap.Text = ge.MapTracker.drawMap();
-            foreach (Unit temp in ge.MapTracker.mapArray)
+            string battleInfo = "";
+            foreach (Unit temp in ge.MapTracker.unitArray)
             {
                 string typeCheck = temp.GetType().ToString();
                 string[] splitArray = typeCheck.Split('.');
@@ -48,14 +58,23 @@ namespace JadeOlivier_19013088_Task1
                 if (typeCheck == "MeleeUnit")
                 {
                     MeleeUnit obj = (MeleeUnit)temp;
-                    rtxProgress.AppendText(obj.ToString());
+                    battleInfo += obj.ToString();
                 }
                 else
                 {
                     RangedUnit obj = (RangedUnit)temp;
-                    rtxProgress.AppendText(obj.ToString());
+                    battleInfo += obj.ToString();
                 }
             }
+
+            rtxProgress.Text = battleInfo;
+        }
+
+        private void frmBattlefield_Load(object sender, EventArgs e)
+        {
+            ge.MapTracker.populateMap();
+            lblMap.Text = ge.MapTracker.drawMap();
+            Display();
         }
     }
 }

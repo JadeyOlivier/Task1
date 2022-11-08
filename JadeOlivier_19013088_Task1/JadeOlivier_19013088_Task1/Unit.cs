@@ -35,17 +35,17 @@ namespace JadeOlivier_19013088_Task1
         }
 
         //Abstract methods to be used by subclasses
-        protected abstract void Move(Unit unitToEngage);
+        public abstract string Move(Unit unitToEngage);
 
-        protected abstract void Combat(Unit attackingUnit);
+        public abstract void Combat(Unit attackingUnit);
 
-        protected abstract bool IsInRange(Unit unitInRange);
+        public abstract bool IsInRange(Unit unitInRange);
 
-        protected abstract int ClosestUnit(Unit unitCloset);
+        public abstract Unit ClosestUnit(Unit[] unitClosetCheck);
 
-        protected abstract bool IsDead();
+        public abstract bool IsDead();
 
-        protected abstract string ToString(Unit unitString);   
+        public override abstract string ToString();   
         
         
     }

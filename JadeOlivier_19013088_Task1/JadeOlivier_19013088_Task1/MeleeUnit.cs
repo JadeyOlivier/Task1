@@ -8,23 +8,145 @@ namespace JadeOlivier_19013088_Task1
 {
     class MeleeUnit : Unit
     {
-        
+        GameEngine ge = new GameEngine();
+
+        //Constructor intialiser for unit takes in created values and sends them to parent class Unit
         public MeleeUnit(int meleeX, int meleeY, string meleeTeam, char meleeSymb, bool meleeAttacking) : base(meleeX, meleeY, 6, 2, 2, 1, meleeTeam, meleeSymb, meleeAttacking)
         {
 
         }
 
-        protected override void Move(Unit unitToEngage)
+        //Movement takes in the enemy unit the current unit needs to move to and finds the shortest way of getting to that unit without moviong diagonally
+        public override string Move(Unit unitToEngage)
         {
-            throw new NotImplementedException();
+            string returnVal = "";
+            string typeCheck = unitToEngage.GetType().ToString();
+            string[] splitArray = typeCheck.Split('.');
+            typeCheck = splitArray[splitArray.Length - 1];
+
+            if (typeCheck == "MeleeUnit")
+            {
+                MeleeUnit m = (MeleeUnit)unitToEngage;
+                if ((Math.Abs(m.XPos - this.XPos) > Math.Abs(m.YPos - this.YPos)))
+                {
+                    if ((m.XPos - this.XPos) > 0)
+                    {
+                        this.XPos++;
+                        returnVal = "Right";
+                    }
+                    else if ((m.XPos - this.XPos) < 0)
+                    {
+                        this.XPos--;
+                        returnVal = "Left";
+                    }
+                }
+                else
+                {
+                    if ((m.YPos - this.YPos) > 0)
+                    {
+                        this.YPos++;
+                        returnVal = "Up";
+                    }
+                    else if ((m.YPos - this.YPos) < 0)
+                    {
+                        this.YPos--;
+                        returnVal = "Down";
+                    }
+                }
+            }
+            else
+            {
+                RangedUnit r = (RangedUnit)unitToEngage;
+                if ((Math.Abs(r.XPos - this.XPos) > Math.Abs(r.YPos - this.YPos)))
+                {
+                    if ((r.XPos - this.XPos) > 0)
+                    {
+                        this.XPos++;
+                        returnVal = "Right";
+                    }
+                    else if ((r.XPos - this.XPos) < 0)
+                    {
+                        this.XPos--;
+                        returnVal = "Left";
+                    }
+                }
+                else
+                {
+                    if ((r.YPos - this.YPos) > 0)
+                    {
+                        this.YPos++;
+                        returnVal = "Up";
+                    }
+                    else if ((r.YPos - this.YPos) < 0)
+                    {
+                        this.YPos--;
+                        returnVal = "Down";
+                    }
+                }
+            }
+
+            return returnVal;
         }
 
-        protected override int ClosestUnit(Unit unitCloset)
+        //Distance formula used to determine closest unit. If distance of the opponent unit currently being tested is less than the
+        //distance of the previously tested opponent unit, the current unit then becomes the closest unit. Once all units in the 
+        //array have been tested, the closest enemy unit is passed back to GameEngine
+        public override Unit ClosestUnit(Unit[] unitClosetCheck)
         {
-            throw new NotImplementedException();
+            int workingOut, xDis, yDis;
+            int closest = 1000;
+            Unit returnVal = this;
+            foreach (Unit temp in unitClosetCheck)
+            {
+                string typeCheck = temp.GetType().ToString();
+                string[] splitArray = typeCheck.Split('.');
+                typeCheck = splitArray[splitArray.Length - 1];
+
+                if (typeCheck == "MeleeUnit")
+                {
+                    MeleeUnit m = (MeleeUnit)temp;
+                    if (m.XPos != this.XPos && m.YPos != this.YPos)
+                    {
+                        if (m.Faction != this.Faction)
+                        {
+                            xDis = Math.Abs(this.XPos - m.XPos);
+                            yDis = Math.Abs(this.YPos - m.YPos);
+                            workingOut = Convert.ToInt32(Math.Sqrt((xDis * xDis) + (yDis * yDis)));
+
+                            if (workingOut < closest)
+                            {
+                                closest = workingOut;
+                                returnVal = m;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    RangedUnit r = (RangedUnit)temp;
+                    if (r.XPos != this.XPos && r.YPos != this.YPos)
+                    {
+                        if (r.Faction != this.Faction)
+                        {
+                            xDis = Math.Abs(this.XPos - r.XPos);
+                            yDis = Math.Abs(this.YPos - r.YPos);
+                            workingOut = Convert.ToInt32(Math.Sqrt((xDis * xDis) + (yDis * yDis)));
+
+                            if (workingOut < closest)
+                            {
+                                closest = workingOut;
+                                returnVal = r;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return returnVal;
         }
 
-        protected override void Combat(Unit attackingUnit)
+        //Method to deal with combatting the enemy unit once it is in range. Lowers enemy hp using current units attack value 
+        public override void Combat(Unit attackingUnit)
         {
             string typeCheck = attackingUnit.GetType().ToString();
             string[] splitArray = typeCheck.Split('.');
@@ -34,23 +156,32 @@ namespace JadeOlivier_19013088_Task1
             {
                 MeleeUnit mu = (MeleeUnit)attackingUnit;
                 mu.Health -= this.Attk;
-                this.isAttacking = true;
+                this.isAttacking = false;
             }
             else
             {
                 RangedUnit ru = (RangedUnit)attackingUnit;
                 ru.Health -= this.Attk;
-                this.IsAttacking = true;
+                this.IsAttacking = false;
             }
         }
 
-        protected override bool IsDead()
+        //Tests if current units health is <= 0 and removes it from the map 
+        public override bool IsDead()
         {
             bool unitDead;
-
             if (this.Health <= 0)
             {
                 unitDead = true;
+                ge.MapTracker.mapVisuals[this.YPos, this.XPos] = '.';
+                if (this.Faction == "Day Walkers")
+                {
+                    ge.MapTracker.NumDayWalkers--;
+                }
+                else
+                {
+                    ge.MapTracker.NumNightRiders--;
+                }
             }
             else
             {
@@ -60,7 +191,8 @@ namespace JadeOlivier_19013088_Task1
             return unitDead;
         }
 
-        protected override bool IsInRange(Unit unitInRange)
+        //Tests if closest enemy unit is within 2 blocks of the current unit 
+        public override bool IsInRange(Unit unitInRange)
         {
             bool inRange = false; ;
             string typeCheck = unitInRange.GetType().ToString();
@@ -70,7 +202,7 @@ namespace JadeOlivier_19013088_Task1
             if (typeCheck == "MeleeUnit")
             {
                 MeleeUnit mu = (MeleeUnit)unitInRange;
-                if (Math.Abs(this.YPos - mu.YPos) == 1 || Math.Abs(this.XPos - mu.XPos) == 1 )
+                if ((mu.YPos == this.YPos && Math.Abs(mu.XPos - this.XPos) == 1) || (mu.XPos == this.XPos && Math.Abs(mu.YPos - this.YPos) == 1))
                 {
                     inRange = true;
                 }
@@ -82,7 +214,7 @@ namespace JadeOlivier_19013088_Task1
             else
             {
                 RangedUnit ru = (RangedUnit)unitInRange;
-                if (Math.Abs(this.YPos - ru.YPos) == 2 || Math.Abs(this.XPos - ru.XPos) == 2)
+                if ((ru.YPos == this.YPos && Math.Abs(ru.XPos - this.XPos) == 1) || (ru.XPos == this.XPos && Math.Abs(ru.YPos - this.YPos) == 1))
                 {
                     inRange = true;
                 }
@@ -95,12 +227,15 @@ namespace JadeOlivier_19013088_Task1
             return inRange;
         }
 
-        protected override string ToString(Unit unitString)
+
+        //For displaying stats of this unit
+        public override string ToString()
         {
             string returnVal = "";
             returnVal += "A new Ranged Unit enters the battlefield" + Environment.NewLine;
             returnVal += "Their x position is: " + this.XPos + Environment.NewLine;
             returnVal += "Their y position is: " + this.YPos + Environment.NewLine;
+            returnVal += "Their MAX hp is: " + this.MaxHealth + Environment.NewLine;
             returnVal += "Their hp is: " + this.Health + Environment.NewLine;
             returnVal += "Their attack damage is: " + this.Attk + Environment.NewLine;
             returnVal += "Their range is: " + this.AttkRange + Environment.NewLine;
@@ -111,6 +246,40 @@ namespace JadeOlivier_19013088_Task1
             returnVal += Environment.NewLine;
 
             return returnVal; 
+        }
+
+        //If the unit is low on health it will runaway in any random direction
+        public string RandomMove()
+        {
+            Random rgn = new Random();
+            int move = rgn.Next(0, 4);
+            string moveDirect = "";
+
+            switch (move)
+            {
+                case 0:
+                    {
+                        moveDirect = "Right";
+                        break;
+                    }
+                case 1:
+                    {
+                        moveDirect = "Left";
+                        break;
+                    }
+                case 2:
+                    {
+                        moveDirect = "Up";
+                        break;
+                    }
+                case 3:
+                    {
+                        moveDirect = "Down";
+                        break;
+                    }
+            }
+
+            return moveDirect;
         }
 
         public int XPos { get => base.xPos; set => base.xPos = value; }
